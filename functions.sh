@@ -38,22 +38,16 @@ software_packages="${livecd}/software_packages"
 base_packages="${livecd}/base_packages"
 release="${livecd}/release"
 cdroot="${livecd}/cdroot"
-version="19.10"
+version="19.11"
 # version=""
-release_stamp=""
+release_stamp="-unionfs"
 # release_stamp="-RC4"
 # time_stamp=`date "+-%Y-%m-%d-%H-%M"`
 # time_stamp=`date "+-%Y-%m-%d"`
 time_stamp=""
 label="GhostBSD"
 isopath="${iso}/${label}${version}${release_stamp}${time_stamp}${community}.iso"
-if [ "$desktop" = "mate" ] ; then
-  union_dirs=${union_dirs:-"bin boot compat dev etc include lib libdata libexec man media mnt net proc rescue root sbin share tests tmp usr/home usr/local/etc usr/local/share/mate-panel var www"}
-elif [ "$desktop" = "kde" ] ; then
-  union_dirs=${union_dirs:-"bin boot compat dev etc include lib libdata libexec man media mnt net proc rescue root sbin share tests tmp usr/home usr/local/etc usr/local/share/plasma var www"}
-else
-  union_dirs=${union_dirs:-"bin boot compat dev etc include lib libdata libexec man media mnt net proc rescue root sbin share tests tmp usr/home usr/local/etc var www"}
-fi
+union_dirs=${union_dirs:-"bin boot compat dev etc include lib libdata libexec man media mnt net proc rescue root sbin share tests tmp var www"}
 
 workspace()
 {
@@ -96,7 +90,7 @@ packages_software()
     kde)
       cat ${cwd}/packages/kde | xargs pkg -c ${release} install -y ;;
   esac
-
+  mkdir -p ${release}/compat/linux/proc
   rm ${release}/etc/resolv.conf
   umount ${release}/var/cache/pkg
 

@@ -38,6 +38,9 @@ while read uniondir; do
   mount_nullfs /memdisk/${uniondir} /${uniondir}
 done < /cdrom/data/uniondirs
 
+mkdir -p /memdisk/usr
+mount -t unionfs /memdisk/usr /usr
+
 echo "==> Mount devfs /dev"
 mount -t devfs devfs /dev
 
