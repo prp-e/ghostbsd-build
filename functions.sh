@@ -154,6 +154,9 @@ extra_config()
   setup_base
   if [ "${desktop}" == "kde" ] ; then
     setup_xinit
+  elif [ "${desktop}" == "xfce" ] ; then
+    git_xfce_settings
+    lightdm_setup
   elif [ "${desktop}" == "mate" ] ; then
     lightdm_setup
     mate_schemas
