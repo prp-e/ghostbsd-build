@@ -81,6 +81,50 @@ base()
   mkdir ${release}/cdrom
 }
 
+build_pkglist()
+{
+### Build pkglist from packages structure
+set +e
+# Reads packages from packages profile
+awk '/^deps/,/^"""/' ${cwd}/packages/${desktop} | grep -v '"""'  > ${cwd}/packages/pkglists/${desktop}-depends
+
+# Reads depends file and search for packages entries in each file from depends
+# list, then append all packages found in packages file
+while read pkgs ; do
+awk '/^packages/,/^"""/' ${cwd}/packages/packages.d/$pkgs  >> ${cwd}/packages/pkglists/${desktop}-package
+done < ${cwd}/packages/pkglists/${desktop}-depends 
+
+# Removes """ and # from temporary package file
+cat ${cwd}/packages/pkglists/${desktop}-package | grep -v '"""' | grep -v '#' > ${cwd}/packages/pkglists/${desktop}-packages
+
+# Reads depends file and search for settings entries in each file from depends
+# list, then append all packages found in packages file
+while read pkgs ; do
+awk '/^settings/,/^"""/' ${cwd}/packages/packages.d/$pkgs  >> ${cwd}/packages/pkglists/${desktop}-setting
+done < ${cwd}/packages/pkglists/${desktop}-depends
+
+# Removes """ and # from temporary package file
+cat ${cwd}/packages/pkglists/${desktop}-package | grep -v '"""' | grep -v '#' > ${cwd}/packages/pkglists/${desktop}-packages
+
+# Removes """ and # from temporary package file
+set +e
+
+echo "Need configuration: " `cat ${cwd}/packages/pkglists/${desktop}-setting | grep -v '"""' | grep -v '#'` 
+if [ $? -ne 0 ] ; then
+    echo "No packages to configure found."
+else 
+cat ${cwd}/packages/pkglists/${desktop}-setting | grep -v '"""' | grep -v '#' > ${cwd}/packages/pkglists/${desktop}-settings
+fi
+
+set -e
+# Removes temporary/leftover files
+if [ -f ${cwd}/packages/pkglists/${desktop}-package ] ; then
+ rm -f ${cwd}/packages/pkglists/${desktop}-package
+ rm -f ${cwd}/packages/pkglists/${desktop}-depends
+  rm -f ${cwd}/packages/pkglists/${desktop}-setting
+fi
+}
+
 packages_software()
 {
   # cp -R ${cwd}/repos/ ${release}
