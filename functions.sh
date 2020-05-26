@@ -138,6 +138,25 @@ packages_software()
   umount ${release}/var/cache/pkg
 }
 
+config_packages()
+{
+mount_nullfs ${cwd}/packages/packages.cfg ${release}/cdrom
+while read pkgc; do
+    if [ -n "${pkgc}" ] ; then
+        if [ -f "${cwd}/packages/packages.cfg/$pkgc.sh" ]; then
+            echo "$pkgc.sh configuration file found"
+            chroot $release /bin/sh /cdrom/${pkgc}.sh
+            if [ $? -ne 0 ] ; then
+            echo "${pkgc}.sh configuration error"
+              exit 1
+            fi
+        fi
+    fi
+done < ${cwd}/packages/pkglists/${desktop}-settings
+umount ${release}/cdrom
+rm -f ${cwd}/packages/pkglists/${desktop}-settings
+}
+
 rc()
 {
   chroot ${release} sysrc -f /etc/rc.conf root_rw_mount="YES"
