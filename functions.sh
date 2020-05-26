@@ -105,7 +105,7 @@ rc()
   # DEVFS rules
   chroot ${release} sysrc -f /etc/rc.conf devfs_system_ruleset="devfsrules_common"
   # Load the following kernel modules
-  chroot ${release} sysrc -f /etc/rc.conf kld_list="linux linux64 cuse"
+  chroot ${release} sysrc -f /etc/rc.conf kld_list="linux linux64"
   chroot ${release} rc-update add devfs default
   chroot ${release} rc-update add moused default
   chroot ${release} rc-update delete netmount default
