@@ -1,0 +1,15 @@
+description="""
+Basic utilities for a no X env
+"""
+packages="""
+bash
+dpkg
+git
+mc
+rsync
+sudo
+"""
+
+settings = """
+bash
+"""

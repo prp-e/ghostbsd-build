@@ -1,0 +1,11 @@
+
+desc = """
+Base No X desktop environment.
+"""
+
+deps = """
+mini-utils
+"""
+packages = """
+"""
+
