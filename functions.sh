@@ -74,11 +74,12 @@ base()
   mkdir -p ${release}/var/cache/pkg
   mount_nullfs ${base_packages} ${release}/var/cache/pkg
   pkg-static -r ${release} -R ${cwd}/repos/usr/local/etc/pkg/repos/ -C GhostBSD_PKG install -y -g os-generic-kernel os-generic-userland os-generic-userland-lib32 os-generic-userland-devtools
-
   rm ${release}/etc/resolv.conf
   umount ${release}/var/cache/pkg
   touch ${release}/etc/fstab
   mkdir ${release}/cdrom
+  mkdir -p ${release}/compat/linux/dev
+  touch ${release}/libexec/rc/init.d/rc.log
 }
 
 build_pkglist()
@@ -299,3 +300,15 @@ image()
   cd -
 }
 
+stamp_distrofile()
+{
+ # stamp distro file to be able to test env ( live or installed)
+  mkdir -p ${release}/usr/local/etc/default/
+  touch ${release}/usr/local/etc/default/distro
+  echo desktop="${desktop}" > ${release}/usr/local/etc/default/distro
+  echo liveuser="${liveuser}" >> ${release}/usr/local/etc/default/distro
+  #line above should be removed when installing from distro file
+  # to be able to force abort install of live pkgs in installed mode
+  # exitence of livuser= should be tested in each live pkg
+  # after install liveuser should be deleted from there
+}

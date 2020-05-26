@@ -71,6 +71,7 @@ fi
 
 workspace
 base
+stamp_distrofile
 build_pkglist
 packages_software
 user
