@@ -4,6 +4,7 @@ Basic utilities for a no X env
 packages="""
 bash
 dpkg
+fish
 git
 mc
 rsync
