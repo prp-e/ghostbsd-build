@@ -96,9 +96,7 @@ packages_software()
 
 rc()
 {
-  chroot ${release} sysrc -f /etc/rc.conf kldload_nvidia="nvidia-modeset"
-  chroot ${release} sysrc -f /etc/rc.conf rc_parallel="NO"
-  chroot ${release} sysrc -f /etc/rc.conf root_rw_mount="NO"
+  chroot ${release} sysrc -f /etc/rc.conf root_rw_mount="YES"
   chroot ${release} sysrc -f /etc/rc.conf hostname='livecd'
   chroot ${release} sysrc -f /etc/rc.conf sendmail_enable="NONE"
   chroot ${release} sysrc -f /etc/rc.conf sendmail_submit_enable="NO"
@@ -107,20 +105,10 @@ rc()
   # DEVFS rules
   chroot ${release} sysrc -f /etc/rc.conf devfs_system_ruleset="devfsrules_common"
   # Load the following kernel modules
-  chroot ${release} sysrc -f /etc/rc.conf kld_list="linux linux64 cuse /boot/modules/amdgpu.ko /boot/modules/radeonkms.ko /boot/modules/i915kms.ko"
+  chroot ${release} sysrc -f /etc/rc.conf kld_list="linux linux64 cuse"
   chroot ${release} rc-update add devfs default
   chroot ${release} rc-update add moused default
-  chroot ${release} rc-update add dbus default
-  chroot ${release} rc-update add webcamd default
-  chroot ${release} rc-update add powerd default
-  chroot ${release} rc-update add ipfw default
   chroot ${release} rc-update delete netmount default
-  chroot ${release} rc-update add cupsd default
-  chroot ${release} rc-update add avahi-daemon default
-  chroot ${release} rc-update add avahi-dnsconfd default
-  chroot ${release} rc-update add ntpd default
-  chroot ${release} sysrc -f /etc/rc.conf ntpd_sync_on_start="YES"
-  chroot ${release} sysrc -f /etc/rc.conf vboxservice_flags="--disable-timesync"
 }
 
 user()
@@ -246,3 +234,4 @@ image()
   chmod 644 ${iso}/${torrent}
   cd -
 }
+
