@@ -136,6 +136,7 @@ packages_software()
   mkdir -p ${release}/compat/linux/proc
   rm ${release}/etc/resolv.conf
   umount ${release}/var/cache/pkg
+  rm -f ${cwd}/packages/pkglists/${desktop}-packages
 }
 
 config_packages()
@@ -214,7 +215,7 @@ extra_config()
 
 xorg()
 {
-  if [ -n "${desktop}" ] ; then
+  if [ "${desktop}" != "nox" ] ; then
     install -o root -g wheel -m 755 "${cwd}/xorg/bin/xconfig" "${release}/usr/local/bin/"
     # install -o root -g wheel -m 755 "${cwd}/xorg/rc.d/xconfig" "${release}/usr/local/etc/rc.d/"
     # if [ -f "${release}/sbin/openrc-run" ] ; then

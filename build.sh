@@ -77,7 +77,7 @@ user
 xorg
 rc
 config_packages
-extra_config
+#extra_config
 uzip
 ramdisk
 mfs
