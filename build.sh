@@ -71,10 +71,12 @@ fi
 
 workspace
 base
+build_pkglist
 packages_software
 user
 xorg
 rc
+config_packages
 extra_config
 uzip
 ramdisk
