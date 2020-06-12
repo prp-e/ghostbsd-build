@@ -192,6 +192,8 @@ fi
 
 packages_software()
 {
+  buildenv=build
+  export $buildenv}
   # cp -R ${cwd}/repos/ ${release}
   cp /etc/resolv.conf ${release}/etc/resolv.conf
   mkdir -p ${release}/var/cache/pkg
@@ -256,7 +258,7 @@ extra_config()
   . ${cwd}/extra/finalize.sh
   . ${cwd}/extra/autologin.sh
   . ${cwd}/extra/gitpkg.sh
-  . ${cwd}/extra/mate-live-settings.sh
+  #. ${cwd}/extra/mate-live-settings.sh
   set_live_system
   # git_pc_sysinstall
   ## git_gbi is for development testing and gbi should be
